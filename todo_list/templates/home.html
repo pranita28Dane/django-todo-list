@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+   | Home
+{% endblock title %}
+
+{% block content %}
+    <div class="content">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Congrats!</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if all_items %}
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+                <thead>
+                    <tr>
+                    <th class="text-center" scope="col">Item</th>
+                    <th class="text-center" scope="col">Action</th>
+                    <th class="text-center" scope="col">Edit</th>
+                    <th class="text-center" scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for thing in all_items %}
+                    {% if thing.completed %}
+                        <tr class="table-secondary">
+                            <td class="striker text-center">{{ thing.item }}</td>
+                            <td class="text-center"><a class="btn btn-primary" href="{% url 'uncross' thing.id %}">Uncross</a></td>
+                            <td class="text-center"><a class="btn btn-warning" href="{% url 'edit' thing.id %}">Edit</a></td>
+                            <td class="text-center"><a class="btn btn-danger" href="{% url 'delete' thing.id %}">Delete</a></td>
+                        </tr>
+                    {% else %}
+                    <tr>
+                            <td class="text-center">{{ thing.item }}</td>
+                            <td class="text-center"><a class="btn btn-primary" href="{% url 'cross_off' thing.id %}">Cross off</a></td>
+                            <td class="text-center"><a class="btn btn-warning" href="{% url 'edit' thing.id %}">Edit</a></td>
+                            <td class="text-center"><a class="btn btn-danger" href="{% url 'delete' thing.id %}">Delete</a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+{% endblock content %}
+
